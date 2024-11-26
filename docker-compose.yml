@@ -32,6 +32,10 @@ services:
       - POSTGRES_USER=rcu-local
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_DB=rcu-local
+      - JWT_KEY=secret123
+      - JWT_ISSUER=accounts.mindflares.me
+      - JWT_AUDIENCE=test.com
+      - JWT_EXPIRATION_AGE=43200
     stdin_open: true
     tty: true
       

@@ -2,7 +2,7 @@ import { Property } from "@tsed/schema";
 
 export class UserRequest {
     @Property()
-    id: number;
+    id: string;
 
     @Property()
     username: string;
