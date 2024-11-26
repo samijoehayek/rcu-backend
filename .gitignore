@@ -49,9 +49,16 @@ test/**/*.js.map
 .idea
 
 # Project
-/public
 /dist
+
+#postgres
+pgdata
+redisdata
 
 #env
 .env.local
 .env.development
+.env.example
+.env
+
+

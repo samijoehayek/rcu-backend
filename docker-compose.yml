@@ -1,5 +1,16 @@
-version: '3.5'
 services:
+  postgresdb:
+    image: postgres:latest
+    restart: unless-stopped
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data
+    ports:
+      - "5433:5432"
+    environment:
+      - POSTGRES_DB=rcu-local
+      - POSTGRES_USER=rcu-local
+      - POSTGRES_PASSWORD=postgres
+
   server:
     build:
       context: .
@@ -9,6 +20,19 @@ services:
         - https_proxy
         - no_proxy
     image: rcu-backend/server:latest
+    depends_on:
+      - postgresdb
     ports:
       - "8081:8081"
+    environment:
+      - NODE_ENV=staging
+      - ALLOWED_ORIGINS=http://localhost:3000,http://localhost:3001
+      - POSTGRES_HOST=postgresdb
+      - POSTGRES_PORT=5432
+      - POSTGRES_USER=rcu-local
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=rcu-local
+    stdin_open: true
+    tty: true
+      
 

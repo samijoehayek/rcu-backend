@@ -39,7 +39,8 @@ COPY --from=build /opt .
 
 RUN yarn install --pure-lockfile --production
 
-COPY . .
+COPY ./views ./views
+COPY processes.config.js .
 
 EXPOSE 8081
 ENV PORT 8081

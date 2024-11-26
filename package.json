@@ -29,6 +29,8 @@
     "@tsed/platform-response-filter": "^7.83.3",
     "@tsed/platform-views": "^7.83.3",
     "@tsed/schema": "^7.83.3",
+    "@tsed/swagger": "^7.84.1",
+    "@types/express-session": "^1.18.0",
     "ajv": "^8.17.1",
     "barrelsby": "^2.8.1",
     "body-parser": "^1.20.3",
@@ -40,8 +42,11 @@
     "dotenv-expand": "^11.0.6",
     "dotenv-flow": "^4.1.0",
     "express": "^4.21.0",
+    "express-session": "^1.18.1",
     "method-override": "^3.0.0",
-    "passport": "^0.7.0"
+    "passport": "^0.7.0",
+    "pg": "^8.13.1",
+    "typeorm": "^0.3.20"
   },
   "devDependencies": {
     "@tsed/cli-plugin-passport": "5.4.3",

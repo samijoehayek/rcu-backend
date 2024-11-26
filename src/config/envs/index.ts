@@ -1,7 +1,8 @@
-import dotenv from "dotenv-flow";
+import dotenv from "dotenv"
 
-process.env.NODE_ENV = process.env.NODE_ENV || "development";
+export const envs = {
+  ...process.env,
+  ...dotenv.config().parsed
+};
 
-export const config = dotenv.config();
-export const isProduction = process.env.NODE_ENV === "production";
-export const envs = process.env
+export const isProduction = envs.NODE_ENV === "production";
