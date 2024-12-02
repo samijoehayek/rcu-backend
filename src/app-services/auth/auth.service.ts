@@ -3,12 +3,14 @@ import { UserResponse } from "../../dtos/response/user.response";
 import { UserRequest } from "../../dtos/request/user.request";
 import { EncryptionService } from "../encryption/encryption.service";
 import { USER_REPOSITORY } from "../../repositories/user/user.repository";
-import { v4 as uuidv4 } from "uuid";
-
+import { ROLE_REPOSITORY } from "../../repositories/role/role.repository";
 @Service()
 export class AuthService {
   @Inject(USER_REPOSITORY)
   protected userRepository: USER_REPOSITORY;
+
+  @Inject(ROLE_REPOSITORY)
+  protected roleRepository: ROLE_REPOSITORY;
 
   @Inject(EncryptionService)
   protected encryptionService: EncryptionService;
@@ -23,6 +25,19 @@ export class AuthService {
       payload.password = encryptPassword;
     } else {
       throw new Error("Email and password are required");
+    }
+
+    // If user did not choose a role, default to user
+    if (!payload.roleId) {
+      // Get the role id for normal user
+      const role = await this.roleRepository.findOne({ where: { roleName: "user" } });
+      payload.roleId = role?.id;
+    } else {
+      const roleObject = await this.roleRepository.findOne({ where: { id: payload.roleId } });
+      // Check if the user chose a role of admin
+      if (roleObject?.roleName.toLowerCase() === "admin") {
+        throw new Error("You cannot create an admin account");
+      }
     }
 
     // save the user

@@ -1,5 +1,4 @@
 import { Property } from "@tsed/schema";
-
 export class UserRequest {
     @Property()
     id: string;
@@ -12,6 +11,9 @@ export class UserRequest {
 
     @Property()
     password: string;
+
+    @Property()
+    roleId?: string
 
     @Property()
     createdAt: Date;

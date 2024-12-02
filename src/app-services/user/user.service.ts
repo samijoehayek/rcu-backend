@@ -16,4 +16,15 @@ export class UserService {
     if (!users) return [];
     return users;
   }
+
+  // Function to get user by id from the database
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  public async getUserById(id: string, filter?: any): Promise<UserResponse> {
+    id = id.toLowerCase();
+    const user = filter
+      ? await this.repository.findOne({ where: { id: id }, ...filter })
+      : await this.repository.findOne({ where: { id: id } });
+    if (!user) return {} as UserResponse;
+    return user;
+  }
 }

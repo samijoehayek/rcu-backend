@@ -1,21 +1,29 @@
 import { Property } from "@tsed/schema";
+import { Role } from "../../models/role";
+import { RoleResponse } from "./role.response";
 
 export class UserResponse {
-    @Property()
-    id: string;
+  @Property()
+  id: string;
 
-    @Property()
-    username: string;
+  @Property()
+  username: string;
 
-    @Property()
-    email: string;
+  @Property()
+  email: string;
 
-    @Property()
-    password: string;
+  @Property()
+  password: string;
 
-    @Property()
-    createdAt: Date;
+  @Property()
+  roleId: string;
 
-    @Property()
-    updatedAt: Date;
+  @Property(() => RoleResponse)
+  role: Role;
+
+  @Property()
+  createdAt: Date;
+
+  @Property()
+  updatedAt: Date;
 }
