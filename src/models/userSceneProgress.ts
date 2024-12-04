@@ -22,7 +22,7 @@ export class UserSceneProgress {
     sceneId: string;
 
     @Column('simple-array')
-    collectablesCollected: number[];
+    collectablesCollected: string[];
 
     @Column()
     isSceneCompleted: boolean;

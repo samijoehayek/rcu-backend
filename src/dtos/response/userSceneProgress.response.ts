@@ -2,7 +2,7 @@ import { Property } from "@tsed/schema";
 import { Scene } from "../../models/scene";
 import { User } from "../../models/user";
 
-export class UserSceneProgress {
+export class UserSceneProgressResponse {
   @Property()
   id: string;
 
@@ -19,5 +19,8 @@ export class UserSceneProgress {
   sceneId: string;
 
   @Property()
-  collectablesFound: number;
+  collectablesCollected: string[];
+
+  @Property()
+  isSceneCompleted: boolean;
 }

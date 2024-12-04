@@ -1,6 +1,6 @@
 import { Property } from "@tsed/schema";
 
-export class UserSceneProgress {
+export class UserSceneProgressRequest {
   @Property()
   id?: string;
 
@@ -11,5 +11,8 @@ export class UserSceneProgress {
   sceneId: string;
   
   @Property()
-  collectablesFound: number;
+  collectablesCollected: string[];
+
+  @Property()
+  isSceneCompleted: boolean;
 }
