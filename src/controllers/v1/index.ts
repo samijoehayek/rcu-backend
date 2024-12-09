@@ -9,3 +9,4 @@ export * from "./scene/scene.controller";
 export * from "./user/user.controller";
 export * from "./userSceneProgress/userSceneProgress.controller";
 export * from "./avatar/avatar.controller";
+export * from "./wearable/wearable.controller";

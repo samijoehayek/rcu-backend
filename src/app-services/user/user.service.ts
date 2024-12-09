@@ -2,7 +2,7 @@ import { Inject, Service } from "@tsed/di";
 import { USER_REPOSITORY } from "../../repositories/user/user.repository";
 import { UserResponse } from "../../dtos/response/user.response";
 import { AVATAR_REPOSITORY } from "../../repositories/avatar/avatar.repository";
-import { USER_SCENE_PROGRESS_REPOSITORY } from "../../repositories/userSceneProgress/userSceneProgress";
+import { USER_SCENE_PROGRESS_REPOSITORY } from "../../repositories/userSceneProgress/userSceneProgress.repository";
 
 @Service()
 export class UserService {

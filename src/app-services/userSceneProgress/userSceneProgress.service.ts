@@ -1,7 +1,7 @@
 import { Inject, Service } from "@tsed/di";
 import { UserSceneProgressResponse } from "../../dtos/response/userSceneProgress.response";
 import { UserSceneProgressRequest } from "../../dtos/request/userSceneProgress.request";
-import { USER_SCENE_PROGRESS_REPOSITORY } from "../../repositories/userSceneProgress/userSceneProgress";
+import { USER_SCENE_PROGRESS_REPOSITORY } from "../../repositories/userSceneProgress/userSceneProgress.repository";
 import { SCENE_REPOSITORY } from "../../repositories/scene/scene.repository";
 import { USER_REPOSITORY } from "../../repositories/user/user.repository";
 import { NotFound } from "@tsed/exceptions";
