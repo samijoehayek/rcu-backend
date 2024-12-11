@@ -4,7 +4,6 @@ import { Scene } from "../../models/scene";
 import { Puzzle } from "src/models/puzzle";
 
 export class MinigameResponse implements Minigame{
-
     @Property()
     id: string;
 
@@ -24,7 +23,7 @@ export class MinigameResponse implements Minigame{
     totalMinigamePieces: number;
 
     @Property()
-    puzzles: Puzzle[];
+    puzzle: Puzzle[];
 
     @Property()
     createdAt: Date;
