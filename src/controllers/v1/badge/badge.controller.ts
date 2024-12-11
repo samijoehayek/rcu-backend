@@ -1,28 +1,28 @@
 import { Controller, Inject } from "@tsed/di";
 import { Tags, Get, Returns, Post, Put, Delete } from "@tsed/schema";
 import { Authenticate } from "@tsed/passport";
-import { SceneResponse } from "../../../dtos/response/scene.response";
+import { BadgeResponse } from "../../../dtos/response/badge.response";
 import { BodyParams, PathParams, QueryParams } from "@tsed/platform-params";
 import { Exception } from "@tsed/exceptions";
-import { SceneService } from "../../../app-services/scene/scene.service";
-import { SceneRequest } from "../../../dtos/request/scene.request";
+import { BadgeService } from "../../../app-services/badge/badge.service";
+import { BadgeRequest } from "../../../dtos/request/badge.request";
 
-@Controller("/scene")
-@Tags("scene")
-export class SceneController {
-  @Inject(SceneService)
-  protected service: SceneService;
+@Controller("/badge")
+@Tags("badge")
+export class BadgeController {
+  @Inject(BadgeService)
+  protected service: BadgeService;
 
   @Get("/")
   @Authenticate("user-passport")
-  @(Returns(200, Array).Of(SceneResponse))
-  public async getScene(
+  @(Returns(200, Array).Of(BadgeResponse))
+  public async getBadge(
     @QueryParams("filter") filter?: string
-  ): Promise<SceneResponse[]> {
+  ): Promise<BadgeResponse[]> {
     try {
       return filter
-        ? await this.service.getScene(JSON.parse(filter))
-        : await this.service.getScene();
+        ? await this.service.getBadge(JSON.parse(filter))
+        : await this.service.getBadge();
     } catch (error) {
       throw new Exception(error.status, error.message);
     }
@@ -30,12 +30,12 @@ export class SceneController {
 
   @Post("/")
   @Authenticate("admin-passport")
-  @Returns(200, SceneResponse)
-  public async createScene(
-    @BodyParams() scene: SceneRequest
-  ): Promise<SceneResponse> {
+  @Returns(200, BadgeResponse)
+  public async createBadge(
+    @BodyParams() badge: BadgeRequest
+  ): Promise<BadgeResponse> {
     try {
-      return await this.service.createScene(scene);
+      return await this.service.createBadge(badge);
     } catch (error) {
       throw new Exception(error.status, error.message);
     }
@@ -43,13 +43,13 @@ export class SceneController {
 
   @Put("/:id")
   @Authenticate("admin-passport")
-  @Returns(200, SceneResponse)
-  public async updateScene(
+  @Returns(200, BadgeResponse)
+  public async updateBadge(
     @PathParams("id") id: string,
-    @BodyParams() scene: SceneRequest
-  ): Promise<SceneResponse> {
+    @BodyParams() badge: BadgeRequest
+  ): Promise<BadgeResponse> {
     try {
-      return await this.service.updateScene(id, scene);
+      return await this.service.updateBadge(id, badge);
     } catch (err) {
       throw new Exception(err.status, err.message);
     }
@@ -58,24 +58,24 @@ export class SceneController {
   @Delete("/:id")
   @Authenticate("admin-passport")
   @Returns(200, Boolean)
-  public async deleteScene(
+  public async deleteBadge(
     @PathParams("id") id: string
   ): Promise<boolean> {
     try {
-      return await this.service.deleteScene(id);
+      return await this.service.deleteBadge(id);
     } catch (err) {
       throw new Exception(err.status, err.message);
     }
   }
 
-  @Get("/searchSceneByName")
+  @Get("/searchBadgeByName")
   @Authenticate("user-passport")
-  @(Returns(200, Array).Of(SceneResponse))
+  @(Returns(200, Array).Of(BadgeResponse))
   public async searchAvatar(
     @QueryParams("search") search: string
-  ): Promise<SceneResponse[]> {
+  ): Promise<BadgeResponse[]> {
     try {
-      return await this.service.searchSceneByName(search);
+      return await this.service.searchBadgeByName(search);
     } catch (err) {
       throw new Exception(err.status, err.message);
     }

@@ -79,6 +79,7 @@ export class UserSceneProgressService {
           completedScene.collectables.length
       ) {
         userSceneProgress.isSceneCompleted = true;
+        userSceneProgress.badgeId = completedScene.badge.id;
       }
 
       const newUserSceneProgress = await this.userSceneProgressRepository.save(

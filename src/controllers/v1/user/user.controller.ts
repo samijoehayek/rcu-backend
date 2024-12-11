@@ -62,4 +62,15 @@ export class UserController {
       throw new Exception(error.status, error.message);
     }
   }
+
+  @Put("/resetUser/:userId")
+  @Authenticate("admin-passport")
+  @Returns(200, UserResponse)
+  public async resetUser(@PathParams("userId") userId: string): Promise<UserResponse> {
+    try {
+      return await this.service.resetUser(userId);
+    } catch (error) {
+      throw new Exception(error.status, error.message);
+    }
+  }
 }

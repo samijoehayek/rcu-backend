@@ -5,10 +5,10 @@ import {
   ManyToOne,
   JoinColumn,
 } from "typeorm";
-import { Scene } from "./scene";
+import { Minigame } from "./minigame";
 
-@Entity("collectable")
-export class Collectable {
+@Entity("puzzle")
+export class Puzzle {
   @PrimaryGeneratedColumn("uuid")
   id!: string;
 
@@ -18,10 +18,10 @@ export class Collectable {
   @Column()
   description: string;
 
-  @ManyToOne(() => Scene, (scene) => scene.collectables)
-  @JoinColumn({ name: "sceneId" })
-  scene: Scene;
+  @ManyToOne(() => Minigame, (minigame) => minigame.puzzle)
+  @JoinColumn({ name: "minigameId" })
+  minigame: Minigame;
 
   @Column()
-  sceneId: string;
+  minigameId: string;
 }

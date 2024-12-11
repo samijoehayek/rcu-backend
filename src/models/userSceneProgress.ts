@@ -25,6 +25,9 @@ export class UserSceneProgress {
     collectablesCollected: string[];
 
     @Column()
+    badgeId: string;
+
+    @Column()
     isSceneCompleted: boolean;
 
     @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })

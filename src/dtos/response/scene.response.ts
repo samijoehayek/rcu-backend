@@ -2,6 +2,7 @@ import { Property } from "@tsed/schema";
 import { Scene } from "../../models/scene";
 import { Collectable } from "../../models/collectable";
 import { UserSceneProgress } from "../../models/userSceneProgress";
+import { Badge } from "src/models/badge";
 
 export class SceneResponse implements Scene {
     @Property()
@@ -14,8 +15,11 @@ export class SceneResponse implements Scene {
     public totalCollectables: number;
 
     @Property()
-    collectables: Collectable[];
+    public collectables: Collectable[];
 
     @Property()
-    userProgress: UserSceneProgress[];
+    public badge: Badge;
+
+    @Property()
+    public userProgress: UserSceneProgress[];
 }

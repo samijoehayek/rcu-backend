@@ -1,7 +1,7 @@
 import { Inject, Service } from "@tsed/di";
 import { NotFound } from "@tsed/exceptions";
 import { SceneRequest } from "../../dtos/request/scene.request";
-import { SceneResponse } from "../../dtos/response/scene.reponse";
+import { SceneResponse } from "../../dtos/response/scene.response";
 import { SCENE_REPOSITORY } from "../../repositories/scene/scene.repository";
 import { USER_REPOSITORY } from "../../repositories/user/user.repository";
 import { ILike } from "typeorm";
