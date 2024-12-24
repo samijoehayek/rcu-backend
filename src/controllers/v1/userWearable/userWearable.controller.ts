@@ -70,7 +70,7 @@ export class UserWearableController {
   }
 
   @Post("/buyWearable")
-  @Authenticate("jwt-passport")
+  @Authenticate("user-passport")
   @Returns(200, UserResponse)
   public async buyWearable(
     @BodyParams() buyObject: { wearableId: string; userId: string },
@@ -88,7 +88,7 @@ export class UserWearableController {
   }
 
   @Put("/setWearable")
-  @Authenticate("jwt-passport")
+  @Authenticate("user-passport")
   @Returns(200, UserResponse)
   public async setUserWearable(
     @BodyParams() wearableObject: { wearableId: string; userId: string },
@@ -106,7 +106,7 @@ export class UserWearableController {
   }
 
   @Put("/removeWearable")
-  @Authenticate("jwt-passport")
+  @Authenticate("user-passport")
   @Returns(200, UserResponse)
   public async removeUserWearable(
     @BodyParams() wearableObject: { wearableId: string; userId: string },

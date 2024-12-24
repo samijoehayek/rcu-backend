@@ -71,7 +71,7 @@ export class SceneController {
   @Get("/searchSceneByName")
   @Authenticate("user-passport")
   @(Returns(200, Array).Of(SceneResponse))
-  public async searchAvatar(
+  public async searchScene(
     @QueryParams("search") search: string
   ): Promise<SceneResponse[]> {
     try {

@@ -2,7 +2,7 @@ import { Property } from "@tsed/schema";
 import { Scene } from "../../models/scene";
 import { Collectable } from "../../models/collectable";
 import { UserSceneProgress } from "../../models/userSceneProgress";
-import { Badge } from "src/models/badge";
+import { Badge } from "../../models/badge";
 
 export class SceneResponse implements Scene {
     @Property()

@@ -71,7 +71,7 @@ export class MinigameController {
   @Get("/searchMinigameByName")
   @Authenticate("user-passport")
   @(Returns(200, Array).Of(MinigameResponse))
-  public async searchAvatar(
+  public async searchMinigame(
     @QueryParams("search") search: string
   ): Promise<MinigameResponse[]> {
     try {

@@ -24,7 +24,7 @@ export class UserController {
   }
 
   @Get("/getUserById")
-  @Authenticate("jwt-passport")
+  @Authenticate("user-passport")
   @Returns(200, UserResponse)
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public async getUserById(@Req() req: any, @QueryParams("filter") filter?: string): Promise<UserResponse> {
@@ -38,7 +38,7 @@ export class UserController {
   }
 
   @Put("/setAvatarForUser/:userId/:avatarId")
-  @Authenticate("jwt-passport")
+  @Authenticate("user-passport")
   @Returns(200, UserResponse)
   public async setAvatarForUser(
     @PathParams("userId") userId: string,

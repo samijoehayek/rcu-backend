@@ -71,7 +71,7 @@ export class BadgeController {
   @Get("/searchBadgeByName")
   @Authenticate("user-passport")
   @(Returns(200, Array).Of(BadgeResponse))
-  public async searchAvatar(
+  public async searchBadge(
     @QueryParams("search") search: string
   ): Promise<BadgeResponse[]> {
     try {

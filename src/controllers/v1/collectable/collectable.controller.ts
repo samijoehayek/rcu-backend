@@ -71,7 +71,7 @@ export class CollectableController {
   @Get("/searchCollectableByName")
   @Authenticate("user-passport")
   @(Returns(200, Array).Of(CollectableResponse))
-  public async searchAvatar(
+  public async searchCollectable(
     @QueryParams("search") search: string
   ): Promise<CollectableResponse[]> {
     try {

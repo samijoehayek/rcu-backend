@@ -71,7 +71,7 @@ export class PuzzleController {
   @Get("/searchPuzzleByName")
   @Authenticate("user-passport")
   @(Returns(200, Array).Of(PuzzleResponse))
-  public async searchAvatar(
+  public async searchPuzzle(
     @QueryParams("search") search: string
   ): Promise<PuzzleResponse[]> {
     try {

@@ -1,7 +1,7 @@
 import { Property } from "@tsed/schema";
 import { Minigame } from "../../models/minigame";
 import { Scene } from "../../models/scene";
-import { Puzzle } from "src/models/puzzle";
+import { Puzzle } from "../../models/puzzle";
 
 export class MinigameResponse implements Minigame{
     @Property()

@@ -74,7 +74,7 @@ export class WearableController {
   @Get("/searchWearableByName")
   @Authenticate("user-passport")
   @(Returns(200, Array).Of(WearableResponse))
-  public async searchAvatar(@QueryParams("search") search: string): Promise<WearableResponse[]> {
+  public async searchWearable(@QueryParams("search") search: string): Promise<WearableResponse[]> {
     try {
       return await this.service.searchWearableByName(search);
     } catch (err) {

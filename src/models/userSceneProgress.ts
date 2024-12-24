@@ -24,7 +24,7 @@ export class UserSceneProgress {
     @Column('simple-array')
     collectablesCollected: string[];
 
-    @Column()
+    @Column({ nullable: true })
     badgeId: string;
 
     @Column()
