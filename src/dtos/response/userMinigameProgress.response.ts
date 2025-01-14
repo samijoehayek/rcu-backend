@@ -23,6 +23,9 @@ export class UserMinigameProgressResponse implements UserMinigameProgress {
   minigamePieces: string[];
 
   @Property()
+  minigamePiecesPlaced: string[];
+
+  @Property()
   isMinigameCompleted: boolean;
 
   @Property()

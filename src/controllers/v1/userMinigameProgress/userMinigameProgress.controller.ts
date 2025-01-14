@@ -31,6 +31,24 @@ export class UserMinigameProgressController {
     }
   }
 
+  @Post("/place-item")
+  @Authenticate("user-passport")
+  @Returns(200, UserMinigameProgressResponse)
+  public async placeItem(
+    @Req() req: any,
+    @BodyParams()
+    placeItem: {
+      minigameId: string;
+      puzzlePieceIds: string[];
+    }
+  ): Promise<UserMinigameProgressResponse> {
+    try {
+      return await this.service.placeItem(req.user.user.id, placeItem);
+    } catch (error) {
+      throw new Exception(error.status, error.message);
+    }
+  }
+
   @Get("/")
   @Authenticate("user-passport")
   @(Returns(200, Array).Of(UserMinigameProgressResponse))

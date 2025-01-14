@@ -24,6 +24,9 @@ export class UserMinigameProgress {
   @Column("simple-array")
   minigamePieces: string[];
 
+  @Column("simple-array")
+  minigamePiecesPlaced: string[];
+
   @Column({ default: false })
   isMinigameCompleted: boolean;
 

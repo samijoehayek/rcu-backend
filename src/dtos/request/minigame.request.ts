@@ -8,6 +8,9 @@ export class MinigameRequest {
   public name: string;
 
   @Property()
+  public description: string;
+
+  @Property()
   public totalMinigamePieces: number;
 
   @Property()
