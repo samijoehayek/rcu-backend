@@ -61,6 +61,7 @@ export class UserMinigameProgressService {
       const userMinigameProgress = this.userMinigameProgressRepository.save({
         userId,
         minigameId,
+        minigamePiecesPlaced: [],
         isMinigameCompleted: false,
         minigamePieces: [puzzlePieceId],
       });
