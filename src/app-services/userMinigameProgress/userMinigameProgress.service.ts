@@ -72,19 +72,6 @@ export class UserMinigameProgressService {
       if (!userMinigameProgress.minigamePieces.includes(puzzlePieceId)) {
         userMinigameProgress.minigamePieces.push(puzzlePieceId);
       }
-      // Check if minigame is completed
-      const completedMinigame = await this.minigameRepository.findOne({
-        where: { id: minigameId },
-        relations: ["puzzle"],
-      });
-
-      if (
-        completedMinigame &&
-        userMinigameProgress.minigamePieces.length ===
-          completedMinigame.puzzle.length
-      ) {
-        userMinigameProgress.isMinigameCompleted = true;
-      }
 
       const newUserMinigameProgress =
         await this.userMinigameProgressRepository.save(userMinigameProgress);
@@ -148,6 +135,20 @@ export class UserMinigameProgressService {
       (pieceId) => !userMinigameProgress.minigamePiecesPlaced.includes(pieceId)
     );
     userMinigameProgress.minigamePiecesPlaced.push(...newPieces);
+
+    // Check if minigame is completed
+    const completedMinigame = await this.minigameRepository.findOne({
+      where: { id: minigameId },
+      relations: ["puzzle"],
+    });
+
+    if (
+      completedMinigame &&
+      userMinigameProgress.minigamePiecesPlaced.length ===
+        completedMinigame.puzzle.length
+    ) {
+      userMinigameProgress.isMinigameCompleted = true;
+    }
 
     const newUserMinigameProgress =
       await this.userMinigameProgressRepository.save(userMinigameProgress);
