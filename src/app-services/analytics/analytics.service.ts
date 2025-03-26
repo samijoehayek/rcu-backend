@@ -2,6 +2,8 @@ import { Inject, Service } from "@tsed/di";
 import { USER_REPOSITORY } from "../../repositories/user/user.repository";
 import { DateTime } from "luxon";
 import { LOGIN_LOG_REPOSITORY } from "../../repositories/loginLog/loginLog.repository";
+import { SCENE_COMPLETION_REPOSITORY } from "../../repositories/sceneCompletion/sceneCompletion.repository";
+import { MINIGAME_COMPLETION_REPOSITORY } from "../../repositories/minigameCompletion/minigameCompletion.repository";
 
 interface LoginAnalytics {
   today: {
@@ -9,8 +11,8 @@ interface LoginAnalytics {
     loginCount: number;
   };
   last30Days: DailyLoginCount[];
-  monthlyAverages: MonthlyAverage[];
-  currentMonthAverage: MonthlyAverage;
+  monthlyLogins: MonthlyLogin[];
+  currentMonthAverage: MonthlyLogin;
 }
 
 interface DailyLoginCount {
@@ -18,10 +20,22 @@ interface DailyLoginCount {
   count: number;
 }
 
-interface MonthlyAverage {
+interface MonthlyLogin {
   month: string;
-  averageLogins: number;
+  loginsPerMonth: number;
   totalUsers: number;
+}
+
+interface SceneAnalytics {
+  sceneId: string;
+  averageTimeInSeconds: number;
+  completedUsers: number;
+}
+
+interface MinigameAnalytics {
+  minigameId: string;
+  averageTimeInSeconds: number;
+  completedUsers: number;
 }
 
 @Service()
@@ -32,6 +46,12 @@ export class AnalyticsService {
 
   @Inject(LOGIN_LOG_REPOSITORY)
   private loginLogRepository: LOGIN_LOG_REPOSITORY;
+
+  @Inject(SCENE_COMPLETION_REPOSITORY)
+  private sceneCompletionRepository: SCENE_COMPLETION_REPOSITORY;
+
+  @Inject(MINIGAME_COMPLETION_REPOSITORY)
+  private minigameCompletionRepository: MINIGAME_COMPLETION_REPOSITORY;
 
   public async getUserActivity(): Promise<LoginAnalytics> {
     const now = DateTime.now();
@@ -60,8 +80,8 @@ export class AnalyticsService {
       })
     );
 
-    // Get monthly averages for the past 12 months
-    const monthlyAverages = await Promise.all(
+    // Get monthly logins for the past 12 months
+    const monthlyLogin = await Promise.all(
       [...Array(12)].map(async (_, index) => {
         const monthStart = now.minus({ months: index }).startOf("month");
         const monthEnd = monthStart.endOf("month");
@@ -77,11 +97,9 @@ export class AnalyticsService {
           }),
         ]);
 
-        const daysInMonth = monthEnd.diff(monthStart, "days").days;
-
         return {
           month: monthStart.toFormat("yyyy-MM"),
-          averageLogins: Number((totalLogins / daysInMonth).toFixed(2)),
+          loginsPerMonth: Number(totalLogins),
           totalUsers,
         };
       })
@@ -107,10 +125,10 @@ export class AnalyticsService {
         loginCount: todayLogins,
       },
       last30Days: last30DaysLogins,
-      monthlyAverages: monthlyAverages,
+      monthlyLogins: monthlyLogin,
       currentMonthAverage: {
         month: currentMonthStart.toFormat("yyyy-MM"),
-        averageLogins: Number((currentMonthLogins / daysElapsed).toFixed(2)),
+        loginsPerMonth: Number(currentMonthLogins),
         totalUsers: currentMonthUsers,
       },
     };
@@ -196,6 +214,58 @@ export class AnalyticsService {
     } catch (error) {
       console.error("Error getting detailed login stats:", error);
       throw new Error("Failed to get detailed login statistics");
+    }
+  }
+
+  async getSceneCompletionAverageTimes(): Promise<SceneAnalytics[]> {
+    try {
+      const results = await this.sceneCompletionRepository
+        .createQueryBuilder("scene")
+        .select([
+          "scene.sceneId",
+          "AVG(EXTRACT(EPOCH FROM (scene.endTime - scene.startTime))) as average_time",
+          "COUNT(DISTINCT scene.userId) as user_count",
+        ])
+        .where("scene.endTime IS NOT NULL")
+        .groupBy("scene.sceneId")
+        .orderBy("scene.sceneId", "ASC")
+        .getRawMany();
+      console.log(results);
+
+      return results.map((row) => ({
+        sceneId: row.scene_sceneId,
+        averageTimeInSeconds: parseFloat(row.average_time),
+        completedUsers: parseInt(row.user_count),
+      }));
+    } catch (error) {
+      console.error("Error getting scene statistics:", error);
+      throw new Error("Failed to retrieve scene analytics");
+    }
+  }
+
+  async getMinigameCompletionAverageTimes(): Promise<MinigameAnalytics[]> {
+    try {
+      const results = await this.minigameCompletionRepository
+        .createQueryBuilder("minigame")
+        .select([
+          "minigame.minigameId",
+          "AVG(EXTRACT(EPOCH FROM (minigame.endTime - minigame.startTime))) as average_time",
+          "COUNT(DISTINCT minigame.userId) as user_count",
+        ])
+        .where("minigame.endTime IS NOT NULL")
+        .groupBy("minigame.minigameId")
+        .orderBy("minigame.minigameId", "ASC")
+        .getRawMany();
+      console.log(results);
+
+      return results.map((row) => ({
+        minigameId: row.minigame_minigameId,
+        averageTimeInSeconds: parseFloat(row.average_time),
+        completedUsers: parseInt(row.user_count),
+      }));
+    } catch (error) {
+      console.error("Error getting minigame statistics:", error);
+      throw new Error("Failed to retrieve minigame analytics");
     }
   }
 }

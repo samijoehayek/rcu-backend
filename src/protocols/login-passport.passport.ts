@@ -7,6 +7,7 @@ import { BodyParams, Req } from "@tsed/common";
 import { envs } from "../config/envs";
 import * as jwt from "jsonwebtoken";
 import { LoginRequest } from "../dtos/request/auth.request";
+import { LOGIN_LOG_REPOSITORY } from "../repositories/loginLog/loginLog.repository";
 
 @Protocol({
   name: "login-passport",
@@ -22,6 +23,9 @@ export class LoginPassportProtocol implements OnVerify {
 
   @Inject(EncryptionService)
   encryptionService: EncryptionService;
+
+  @Inject(LOGIN_LOG_REPOSITORY)
+  loginLogRepository: LOGIN_LOG_REPOSITORY;
 
   async $onVerify(@Req() req: Req, @BodyParams() payload: LoginRequest) {
     if (!payload.username || !payload.password) throw new Error("Username and password are required");
@@ -44,6 +48,13 @@ export class LoginPassportProtocol implements OnVerify {
       },
       envs.JWT_KEY as string
     );
+
+    // Add the login log here
+    await this.loginLogRepository.save({
+      userId: user.id,
+      createdAt: new Date()
+    });
+
     return (req.user = { token, user });
   }
 }

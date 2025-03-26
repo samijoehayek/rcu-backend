@@ -11,8 +11,8 @@ interface LoginAnalytics {
     loginCount: number;
   };
   last30Days: DailyLoginCount[];
-  monthlyAverages: MonthlyAverage[];
-  currentMonthAverage: MonthlyAverage;
+  monthlyLogins: MonthlyLogin[];
+  currentMonthAverage: MonthlyLogin;
 }
 
 interface DailyLoginCount {
@@ -20,10 +20,22 @@ interface DailyLoginCount {
   count: number;
 }
 
-interface MonthlyAverage {
+interface MonthlyLogin {
   month: string;
-  averageLogins: number;
+  loginsPerMonth: number;
   totalUsers: number;
+}
+
+interface SceneAnalytics {
+  sceneId: string;
+  averageTimeInSeconds: number;
+  completedUsers: number;
+}
+
+interface MinigameAnalytics {
+  minigameId: string;
+  averageTimeInSeconds: number;
+  completedUsers: number;
 }
 
 @Controller("/analytics")
@@ -31,7 +43,7 @@ interface MonthlyAverage {
 export class AnalyticsController {
   @Inject(AnalyticsService)
   protected service: AnalyticsService;
-  
+
   @Get("/user-activity")
   @Authenticate("admin-passport")
   @Returns(200, Object)
@@ -42,6 +54,36 @@ export class AnalyticsController {
   ): Promise<LoginAnalytics> {
     try {
       return await this.service.getUserActivity();
+    } catch (error) {
+      throw new Exception(error.status, error.message);
+    }
+  }
+
+  @Get("/scene-average-times")
+  @Authenticate("admin-passport")
+  @Returns(200, Object)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars
+  public async getSceneCompletionAverageTimes(
+    @Req() req: any,
+    @Res() res: any
+  ): Promise<SceneAnalytics[]> {
+    try {
+      return await this.service.getSceneCompletionAverageTimes();
+    } catch (error) {
+      throw new Exception(error.status, error.message);
+    }
+  }
+
+  @Get("/minigame-average-times")
+  @Authenticate("admin-passport")
+  @Returns(200, Object)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars
+  public async getMinigameCompletionAverageTimes(
+    @Req() req: any,
+    @Res() res: any
+  ): Promise<MinigameAnalytics[]> {
+    try {
+      return await this.service.getMinigameCompletionAverageTimes();
     } catch (error) {
       throw new Exception(error.status, error.message);
     }

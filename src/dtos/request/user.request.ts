@@ -1,13 +1,13 @@
 import { Property } from "@tsed/schema";
 export class UserRequest {
     @Property()
-    id: string;
+    id?: string;
 
     @Property()
     username: string;
 
     @Property()
-    email: string;
+    email?: string;
 
     @Property()
     password: string;
