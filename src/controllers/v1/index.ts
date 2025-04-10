@@ -12,6 +12,7 @@ export * from "./puzzle/puzzle.controller";
 export * from "./role/role.controller";
 export * from "./scene/scene.controller";
 export * from "./user/user.controller";
+export * from "./userLevelCompletion/userLevelCompletion.controller";
 export * from "./userMinigameProgress/userMinigameProgress.controller";
 export * from "./userSceneProgress/userSceneProgress.controller";
 export * from "./userWearable/userWearable.controller";

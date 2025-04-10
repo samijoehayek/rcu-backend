@@ -52,7 +52,6 @@ test/**/*.js.map
 /dist
 
 #postgres
-pgdata
 redisdata
 
 #env
