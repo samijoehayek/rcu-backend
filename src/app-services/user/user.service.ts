@@ -4,8 +4,8 @@ import { UserResponse } from "../../dtos/response/user.response";
 import { AVATAR_REPOSITORY } from "../../repositories/avatar/avatar.repository";
 import { USER_SCENE_PROGRESS_REPOSITORY } from "../../repositories/userSceneProgress/userSceneProgress.repository";
 import { USER_MINIGAME_PROGRESS_REPOSITORY } from "../../repositories/userMinigameProgress/userMinigameProgress.repository";
-import { USER_LEVEL_COMPLETION_REPOSITORY } from "src/repositories/userLevelCompletion/userLevelCompletion.repository"; 
-import { USER_WEARABLE_REPOSITORY } from "src/repositories/userWearable/userWearable.repository";
+import { USER_LEVEL_COMPLETION_REPOSITORY } from "../../repositories/userLevelCompletion/userLevelCompletion.repository"; 
+import { USER_WEARABLE_REPOSITORY } from "../../repositories/userWearable/userWearable.repository";
 
 @Service()
 export class UserService {
