@@ -3,6 +3,9 @@ import { USER_REPOSITORY } from "../../repositories/user/user.repository";
 import { UserResponse } from "../../dtos/response/user.response";
 import { AVATAR_REPOSITORY } from "../../repositories/avatar/avatar.repository";
 import { USER_SCENE_PROGRESS_REPOSITORY } from "../../repositories/userSceneProgress/userSceneProgress.repository";
+import { USER_MINIGAME_PROGRESS_REPOSITORY } from "../../repositories/userMinigameProgress/userMinigameProgress.repository";
+import { USER_LEVEL_COMPLETION_REPOSITORY } from "src/repositories/userLevelCompletion/userLevelCompletion.repository"; 
+import { USER_WEARABLE_REPOSITORY } from "src/repositories/userWearable/userWearable.repository";
 
 @Service()
 export class UserService {
@@ -14,6 +17,15 @@ export class UserService {
 
   @Inject(USER_SCENE_PROGRESS_REPOSITORY)
   protected userSceneProgressRepository: USER_SCENE_PROGRESS_REPOSITORY;
+
+  @Inject(USER_MINIGAME_PROGRESS_REPOSITORY)
+  protected UserMinigameRepository: USER_MINIGAME_PROGRESS_REPOSITORY;
+
+  @Inject(USER_LEVEL_COMPLETION_REPOSITORY)
+  protected userLevelCompletionRepository: USER_LEVEL_COMPLETION_REPOSITORY;
+
+  @Inject(USER_WEARABLE_REPOSITORY)
+  protected userWearableRepository: USER_WEARABLE_REPOSITORY;
 
 
   // Function to get all users from the database
@@ -76,12 +88,27 @@ export class UserService {
     const user = await this.repository.findOne({ where: { id: userId } });
     if (!user) throw new Error("User not found");
 
-    // Delete all collectables for this user
+    // Delete all Scene progress for this user
     await this.userSceneProgressRepository.delete({
       userId: userId
     });
 
+    // Delete all 
+    await this.UserMinigameRepository.delete({
+      userId: userId
+    });
+
+    await this.userLevelCompletionRepository.delete({
+      userId: userId
+    });
+
+    // Delete all Wearable for this user
+    await this.userWearableRepository.delete({
+      userId: userId
+    });
+
     user.balance = 100;
+    user.avatarId = null;
     user.head = "";
     user.torso = "";
     user.legs = "";

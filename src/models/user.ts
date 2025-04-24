@@ -39,7 +39,7 @@ export class User {
 
   // Add foreign key from the avatar table
   @Column({ nullable: true })
-  avatarId: string;
+  avatarId: string | null;
   @ManyToOne(() => Avatar, (avatar: Avatar) => avatar.id)
   @JoinColumn({ name: "avatarId" })
   avatar: Avatar;

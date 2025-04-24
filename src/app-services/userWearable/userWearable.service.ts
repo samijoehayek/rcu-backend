@@ -84,7 +84,9 @@ export class UserWearableService {
       throw new Error("User not authorized to buy wearable for another user");
 
     // Check if the wearable is found
-    const wearable = await this.wearableRepository.findOne({ where: { id: wearableId } });
+    const wearable = await this.wearableRepository.findOne({
+      where: { id: wearableId },
+    });
     if (!wearable) throw new Error("Collectable not found");
 
     // Check if the wearable is available for the user avatar
@@ -105,7 +107,10 @@ export class UserWearableService {
     user.balance = user.balance - wearable.price;
 
     // Add wearable to user wearable
-    await this.userWearableRepository.save({ wearableId: wearableId, userId: userId });
+    await this.userWearableRepository.save({
+      wearableId: wearableId,
+      userId: userId,
+    });
 
     // Save the user with the new balance
     await this.repository.save(user);
@@ -136,12 +141,16 @@ export class UserWearableService {
     if (userId != user_Id?.id)
       throw new Error("User not authorized to set wearable for another user");
 
+    if (user.avatarId == null) throw new Error("User does not have an avatar");
+
     const avatar = await this.avatarRepository.findOne({
       where: { id: user.avatarId },
     });
     if (!avatar) throw new Error("Avatar not found");
 
-    const wearable = await this.wearableRepository.findOne({ where: { id: wearableId } });
+    const wearable = await this.wearableRepository.findOne({
+      where: { id: wearableId },
+    });
     if (!wearable) throw new Error("Wearable not found");
 
     if (wearable.avatarId != avatar.id)
@@ -176,12 +185,16 @@ export class UserWearableService {
     if (userId != user_Id?.id)
       throw new Error("User not authorized to set wearable for another user");
 
+    if (user.avatarId == null) throw new Error("User does not have an avatar");
+
     const avatar = await this.avatarRepository.findOne({
       where: { id: user.avatarId },
     });
     if (!avatar) throw new Error("Avatar not found");
 
-    const wearable = await this.wearableRepository.findOne({ where: { id: wearableId } });
+    const wearable = await this.wearableRepository.findOne({
+      where: { id: wearableId },
+    });
     if (!wearable) throw new Error("Wearable not found");
 
     if (wearable.avatarId != avatar.id)
