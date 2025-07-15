@@ -3,8 +3,9 @@ import { Get, Post, Put, Returns, Tags } from "@tsed/schema";
 import { AuthService } from "../../../app-services/auth/auth.service";
 import { Authenticate } from "@tsed/passport";
 import { AuthResponse } from "../../../dtos/response/auth.response";
-import { BodyParams, Req, Res } from "@tsed/common";
+import { BodyParams, Req, Res, PathParams } from "@tsed/common";
 import { Exception } from "@tsed/exceptions";
+
 import { LoginRequest } from "../../../dtos/request/auth.request";
 
 @Controller("/auth")
@@ -48,6 +49,28 @@ export class AuthController {
     }
   }
 
+
+  @Put("/forgotPassword/:token")
+  @Returns(200, Boolean)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  public async forgotPassword(@PathParams("token") token:string, @BodyParams("newPassword") newPassword: string): Promise<boolean> {
+    try {
+      return await this.service.forgotPassword(token, newPassword);
+    } catch (error) {
+      throw new Exception(error.status, error.message);
+    }
+  }
+
+  @Post("/forgotPasswordEmail")
+  @Returns(200, Boolean)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  public async forgotPasswordEmail(@BodyParams("email") email: string): Promise<boolean> {
+    try {
+      return await this.service.forgotPasswordEmail(email);
+    } catch (error) {
+      throw new Exception(error.status, error.message);
+    }
+  }
   // All users including admins can use this endpoint
   @Post("/login")
   @Authenticate("login-passport")

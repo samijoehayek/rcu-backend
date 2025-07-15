@@ -26,7 +26,7 @@ services:
       - "8081:8081"
     environment:
       - NODE_ENV=staging
-      - ALLOWED_ORIGINS=http://localhost:3000,http://localhost:3001
+      - ALLOWED_ORIGINS=http://localhost:3000,http://localhost:3001,https://frontend-rcu.com
       - POSTGRES_HOST=postgresdb
       - POSTGRES_PORT=5432
       - POSTGRES_USER=rcu-local
@@ -36,6 +36,8 @@ services:
       - JWT_ISSUER=accounts.mindflares.me
       - JWT_AUDIENCE=test.com
       - JWT_EXPIRATION_AGE=43200
+      - TRANSPORTER_EMAIL=michelbeaini4@gmail.com
+      - TRANSPORTER_PASSWORD=bfbsfxiycsuprggg
     stdin_open: true
     tty: true
       
