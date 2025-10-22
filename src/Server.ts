@@ -58,8 +58,13 @@ const allowedOrigins = process.env.ALLOWED_ORIGINS ? process.env.ALLOWED_ORIGINS
   middlewares: [
     cors({
       origin: [...allowedOrigins],
-      methods: ["GET", "POST", "PUT", "DELETE"],
-      allowedHeaders: ["Content-Type", "Authorization"]
+      credentials: true, // ADDED: Important if you're using cookies/auth
+      methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"], // ADDED: OPTIONS and PATCH
+      allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With", "Accept"], // ADDED: More headers
+      exposedHeaders: ["Content-Range", "X-Content-Range"], // ADDED: Expose headers if needed
+      maxAge: 86400, // ADDED: Cache preflight for 24 hours (reduces requests on slow networks)
+      preflightContinue: false, // ADDED: Don't pass to next handler
+      optionsSuccessStatus: 204 // ADDED: Some legacy browsers choke on 200
     }),
     cookieParser(),
     compress({}),
@@ -88,6 +93,18 @@ export class Server {
   protected injectorService: InjectorService;
 
   $beforeRoutesInit() {
+    // ADDED: Explicit OPTIONS handler for all routes (fallback)
+    this.app.use((req: { method: string; headers: { origin: any; }; path: any; }, res: any, next: () => void) => {
+      if (req.method === 'OPTIONS') {
+        console.log('OPTIONS request:', {
+          origin: req.headers.origin,
+          path: req.path,
+          timestamp: new Date().toISOString()
+        });
+      }
+      next();
+    });
+
     this.app
       .use(cookieParser())
       .use(methodOverride())
@@ -105,8 +122,8 @@ export class Server {
           cookie: {
             path: "/",
             httpOnly: true,
-            secure: false,
-            maxAge: 1
+            secure: process.env.NODE_ENV === "production", // CHANGED: Use secure cookies in production
+            maxAge: 24 * 60 * 60 * 1000 // CHANGED: 24 hours instead of 1ms
           }
         })
       );
